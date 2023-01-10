@@ -3,7 +3,6 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
@@ -22,16 +21,13 @@ public class Main {
             xy[i][1] = Integer.parseInt(st.nextToken());
         }
 
-        Arrays.sort(xy, new Comparator<Integer[]>() {
-            @Override
-            public int compare(Integer[] o1, Integer[] o2) {
-                if (Objects.equals(o1[0], o2[0])) {
-                    return o1[1] - o2[1];
-                } else {
-                    return o1[0] - o2[0];
-                }
+        Arrays.sort(xy, ((x, y) -> {
+            if ((int)x[0] != (int)y[0]) {
+                return x[0] - y[0];
+            } else {
+                return x[1] - y[1];
             }
-        });
+        }));
 
         for (Integer[] itemA : xy) {
             bw.write(itemA[0] + " " + itemA[1] + "\n");
