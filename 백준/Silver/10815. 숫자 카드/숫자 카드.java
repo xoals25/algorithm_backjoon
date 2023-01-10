@@ -17,20 +17,18 @@ public class Main {
         
         T = Integer.parseInt(br.readLine());
         int[] arr = getDataArray(T, br);
-        StringBuffer sb = new StringBuffer();
-        
-        for (int num: arr) {
-            if (binarySearch(cardArr, num, 0, cardArr.length - 1) != -1) {
-                sb.append("1 ");
+ 
+        for (int i = 0; i < arr.length; i++) {
+            if (i != 0) {
+                bw.write(" ");
+            }
+            if (binarySearch(cardArr, arr[i], 0, cardArr.length - 1) != -1) {
+                bw.write("1");
             } else {
-                sb.append("0 ");
+                bw.write("0");
             }
         }
         
-        String answer = sb.toString().trim();
-        
-        bw.write(answer + "\n");
-
         bw.flush();
         bw.close();
         br.close();
