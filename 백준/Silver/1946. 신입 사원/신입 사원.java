@@ -25,27 +25,21 @@ public class Main {
         int N = Integer.parseInt(br.readLine());
         int answer = 0;
 
-        int[][] arr = new int[N][2];
+        int[] arr = new int[100_001];
 
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-            arr[i][0] = Integer.parseInt(st.nextToken());
-            arr[i][1] = Integer.parseInt(st.nextToken());
+            int paperGrade = Integer.parseInt(st.nextToken());
+            int faceGrade = Integer.parseInt(st.nextToken());
+            arr[paperGrade] = faceGrade;
         }
 
-        Arrays.sort(arr, ((x, y) -> x[0] - y[0]));
-        
-        int faceTest = Integer.MAX_VALUE;
+        int minFaceGrade = Integer.MAX_VALUE;
 
         for (int i = 0; i < arr.length; i++) {
-            if (arr[i][1] == 1) {
+            if (arr[i] != 0 && minFaceGrade >= arr[i]) {
                 answer++;
-                break;
-            }
-            
-            if (faceTest >= arr[i][1]) {
-                faceTest = arr[i][1];
-                answer++;
+                minFaceGrade = arr[i];
             }
         }
         
