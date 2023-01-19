@@ -1,55 +1,58 @@
-import java.io.BufferedWriter;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int T = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        
-        int[] arr = new int[T];
-     
-        for (int i = 0; i < T; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
-        
-        int[] lisArr = new int[T];
-        int maxLength = 0;
-        
-        lisArr[0] = arr[0];
-        maxLength++;
-        
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] > lisArr[maxLength - 1]) {
-                lisArr[maxLength++] = arr[i];
-            } else if (arr[i] < lisArr[maxLength - 1]) {
-                int left = 0;
-                int right = maxLength - 1;
-                
-                while (left <= right) {
-                    int mid = left + (right - left) / 2;
-                    
-                    if (lisArr[mid] < arr[i]) {
-                        left = mid + 1;
-                    } else {
-                        right = mid - 1;
-                    }
-                }
-                
-                lisArr[left] = arr[i];
+    public static int BSearch(int[] check, int num, int lis) {
+        int left = 0;
+        int right = lis;
+        int result = 0;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            if (check[mid] >= num) {
+                result = mid;
+                right = mid - 1;
+            }
+            else {
+                left = mid + 1;
             }
         }
-       
-        bw.write(maxLength + "\n");
-        bw.flush();
-        bw.close();
-        br.close();
+
+        if (left == lis + 1) {
+            return -1;
+        } else {
+            return result;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int[] arr = new int[n];
+        int[] check = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        int lis = 0;
+        for (int i = 0; i < n; i++) {
+            int idx = BSearch(check, arr[i], lis);
+          //  System.out.println(idx + " i" + i);
+            if (idx == -1) {
+                check[lis++] = arr[i];
+            }
+            else {
+                check[idx] = arr[i];
+            }
+        }
+
+        System.out.println(lis);
     }
 }
