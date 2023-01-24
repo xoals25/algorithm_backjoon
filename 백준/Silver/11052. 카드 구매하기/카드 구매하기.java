@@ -18,17 +18,15 @@ public class Main {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        long[][] dp = new long[T + 1][T + 1];
-        dp[1][1] = arr[1];
+        int[] dp = new int[T + 1];
 
-        for (int i = 2; i <= T; i ++) {
+        for (int i = 1; i <= T; i ++) {
             for (int j = 1; j <= i; j++) {
-                dp[i][j] = Math.max(dp[i][j - 1], dp[j][j] + dp[i - j][i - j]);
-                dp[i][j] = Math.max(dp[i][j], arr[j]);
+                dp[i] = Math.max(dp[i], dp[i - j] + arr[j]);
             }
         }
 
-        bw.write(dp[T][T] + "\n");
+        bw.write(dp[T] + "\n");
         bw.flush();
         bw.close();
         br.close();
