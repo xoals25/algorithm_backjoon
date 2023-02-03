@@ -31,7 +31,7 @@ public class Main {
             }
 
             visited[nPosition] = true;
-            if (nPosition * 2 <= 100_000 && !visited[nPosition * 2]) {
+            if (nPosition != 0 && nPosition * 2 <= 100_000 && !visited[nPosition * 2]) {
                 pq.offer(new int[] {nPosition * 2, count});
             }
 
