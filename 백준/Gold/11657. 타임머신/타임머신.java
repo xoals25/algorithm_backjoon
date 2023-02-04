@@ -10,6 +10,7 @@ public class Main {
     static int M; // 노선 수
     static BufferedReader br;
     static StringTokenizer st;
+    static long INF = 5_000_000;
     public static void main(String[] args) throws Exception {
         br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -18,8 +19,8 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         
-        int[] times = new int[N + 1];
-        Arrays.fill(times, 2_000_000_000);
+        long[] times = new long[N + 1];
+        Arrays.fill(times, INF);
         times[1] = 0;
         
         boolean isCycle = bellmanFord(times);
@@ -28,7 +29,7 @@ public class Main {
             bw.write(-1 + "\n");
         } else {
             for (int i = 2; i < times.length; i++) {
-                if(times[i] == 2_000_000_000) {
+                if(times[i] == INF) {
                     bw.write(-1 + "\n");
                 } else {
                     bw.write(times[i] + "\n");
@@ -41,7 +42,7 @@ public class Main {
         br.close();
     }
     
-    public static boolean bellmanFord(int[] times) throws Exception {
+    public static boolean bellmanFord(long[] times) throws Exception {
         boolean isMinusCycle = false;
         
         Edge[] eg = new Edge[M];
@@ -50,7 +51,7 @@ public class Main {
             st = new StringTokenizer(br.readLine(), " ");
             int from = Integer.parseInt(st.nextToken());
             int to = Integer.parseInt(st.nextToken());
-            int time = Integer.parseInt(st.nextToken());
+            long time = Integer.parseInt(st.nextToken());
             eg[i] = new Edge(from, to, time);
         }
         
@@ -58,7 +59,7 @@ public class Main {
             for (int j = 0; j < M; j++) {
                 Edge cur = eg[j];
                 
-                if (times[cur.from] == 2_000_000_000) {
+                if (times[cur.from] == INF) {
                     continue;
                 }
                 
@@ -70,10 +71,6 @@ public class Main {
                         break;
                     }
                 }
-                
-                if (times[cur.from] < 0 && cur.time < 0 && times[cur.from] + cur.time > 0 && i == N) {
-                    isMinusCycle = true;
-                }
             }
         }
         
@@ -84,9 +81,9 @@ public class Main {
 class Edge {
     int from;
     int to;
-    int time;
+    long time;
     
-    Edge(int from, int to, int time) {
+    Edge(int from, int to, long time) {
         this.from = from;
         this.to = to;
         this.time = time;
