@@ -12,9 +12,9 @@ public class Main {
     static int N;
     static int ML;
     static int MD;
-    static long INF = Long.MAX_VALUE;
+    static int INF = Integer.MAX_VALUE;
     static ArrayList<Edge> edge;
-    static long[] distDp;
+    static int[] distDp;
     public static void main(String[] args) throws Exception {
         br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -25,7 +25,7 @@ public class Main {
         MD = Integer.parseInt(st.nextToken());
         
         edge = new ArrayList<>();
-        distDp = new long[N + 1];
+        distDp = new int[N + 1];
         Arrays.fill(distDp, INF);
         distDp[1] = 0;
         
