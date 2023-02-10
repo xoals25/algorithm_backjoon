@@ -21,12 +21,12 @@ public class Main {
                 break;
             }
             
-            int useDay = V / P * L;
+            int useDay = 0;
             
             if (V % P >= L) {
-                useDay += L;
+                useDay = V / P * L + L;
             } else {
-                useDay += V % P;
+                useDay = V / P * L + V % P;
             }
             
             bw.write("Case " + idx++ + ": " + useDay + "\n");
