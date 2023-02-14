@@ -1,18 +1,13 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String s = br.readLine().trim();
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         
-        if (s.equals("")) {
-            System.out.println(0);
-            return;
-        }
-        
-        int count = s.split(" ").length;
-        System.out.println(count);
+        System.out.println(st.countTokens());
         br.close();
     }
 }
