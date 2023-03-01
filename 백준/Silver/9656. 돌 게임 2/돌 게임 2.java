@@ -6,8 +6,16 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int n = Integer.parseInt(br.readLine());
+        int[] dp = new int[n + 1 + 3];
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 0;
         
-        System.out.println(n % 2 == 0 ? "SK" : "CY");
+        for (int i = 3; i <= n; i++) {
+            dp[i] = (dp[i - 1] + 1) % 2;
+        }
+        
+        System.out.println(dp[n] == 0 ? "SK" : "CY");
         br.close();
     }
 }
