@@ -1,86 +1,76 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-    public static char[][] board;
-    public static int num;
-    public static int max = 0;
-
-    public static void main(String[] args) throws IOException {
+    static int max = 1;
+    static int N;
+    static char[][] board;
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        num = Integer.parseInt(br.readLine());
-        board = new char[num][num];
 
-        String line = "";
-        for(int i = 0; i < num; i++) {
-            line = br.readLine();
-            board[i] = line.toCharArray();
+        N = Integer.parseInt(br.readLine());
+
+        board = new char[N][N];
+
+        for (int i = 0; i < N; i++) {
+            String s = br.readLine();
+            
+            for (int j = 0; j < N; j++) {
+                board[i][j] = s.charAt(j);
+            }
         }
-
-        // 행
-        for(int i = 0; i < num; i++) {
-            for(int j = 0; j < num-1; j++) {
-                char swap = board[i][j];
-                board[i][j] = board[i][j+1];
-                board[i][j+1] = swap;
-                // max값 찾으러
+        
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N - 1; j++) {
+                swap(i, j, i, j + 1);
                 search();
-                // 원상 복구
-                swap = board[i][j];
-                board[i][j] = board[i][j+1];
-                board[i][j+1] = swap;
+                swap(i, j + 1, i, j);
             }
         }
-
-        // 열
-        for(int i = 0; i < num; i++) {
-            for(int j = 0; j < num-1; j++) {
-                char swap = board[j][i];
-                board[j][i] = board[j+1][i];
-                board[j+1][i] = swap;
-                // max값 찾으러
-                max = Math.max(search(), max);
-                // 원상 복구
-                swap = board[j][i];
-                board[j][i] = board[j+1][i];
-                board[j+1][i] = swap;
+        
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = 0; j < N; j++) {
+                swap(i, j, i + 1, j);
+                search();
+                swap(i + 1, j, i, j);
             }
         }
-
-
+        
         System.out.println(max);
-
+        br.close();
     }
-
-    private static int search() {
-        // 가로
-        for(int i = 0; i < num; i++) {
-            int cnt = 1;
-            for(int j = 0; j < num-1; j++) {
-                if(board[i][j] == board[i][j+1]) {
-                    cnt++;
+    public static void swap(int x1, int y1, int x2, int y2) {
+        char temp = board[x1][y1];
+        board[x1][y1] = board[x2][y2];
+        board[x2][y2] = temp;
+    }
+    
+    public static void search() {
+        for (int i = 0 ; i < N; i ++) {
+            int count = 1;
+            
+            for (int j = 0; j < N - 1; j++) {
+                if (board[i][j] == board[i][j + 1]) {
+                    count++;
+                    max = Math.max(count, max);
                 } else {
-                    cnt = 1;
-                }
-                max = Math.max(max, cnt);
+                    count = 1;
+                }               
             }
         }
-
-        // 세로
-        for(int i = 0; i < num; i++) {
-            int cnt = 1;
-            for(int j = 0; j < num-1; j++) {
-                if(board[j][i] == board[j+1][i]) {
-                    cnt++;
+        
+        for (int i = 0 ; i < N; i ++) {
+            int count = 1;
+            
+            for (int j = 0; j < N - 1; j++) {
+                if (board[j][i] == board[j + 1][i]) {
+                    count++;
+                    max = Math.max(count, max);
                 } else {
-                    cnt = 1;
-                }
-                max = Math.max(max, cnt);
+                    count = 1;
+                }               
             }
         }
-
-        return max;
     }
-
+    
 }
