@@ -13,24 +13,7 @@ public class Main {
             sum += people[i];
         }
         
-        for (int i = 0; i < 9; i++) {
-            int a = people[i];
-            
-            for (int j = i + 1; j < 9; j++) {
-                int b = people[j];
-                
-                if (sum - a - b == 100) {
-                    sum = 100;
-                    people[i] = Integer.MAX_VALUE;
-                    people[j] = Integer.MAX_VALUE;
-                    break;
-                }
-            }
-            
-            if (sum == 100) {
-                break;
-            }
-        }
+        findSeven(sum, people);
         
         Arrays.sort(people);
         
@@ -39,5 +22,19 @@ public class Main {
         }
 
         br.close();
+    }
+    
+    public static void findSeven(int sum, int[] people) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = i + 1; j < 9; j++) {
+                if (sum - people[i] -  people[j] != 100) {
+                    continue;
+                }
+                
+                people[i] = Integer.MAX_VALUE;
+                people[j] = Integer.MAX_VALUE;
+                return;
+            }
+        }
     }
 }
