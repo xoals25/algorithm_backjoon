@@ -14,13 +14,9 @@ class Solution {
         }
         
         for (int i = 0; i < photo.length; i++) {
-            int point = 0;
-            
             for (String item: photo[i]) {
-                point += map.getOrDefault(item, 0);
+                answer[i] += map.getOrDefault(item, 0);
             }
-            
-            answer[i] = point;
         }
         
         return answer;
