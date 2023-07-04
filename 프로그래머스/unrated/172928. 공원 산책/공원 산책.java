@@ -4,65 +4,45 @@ class Solution {
     public int[] solution(String[] park, String[] routes) {
         int[] start = getStartPosition(park);
         
-        int H = park.length;
-        int W = park[0].length();
+        Map<Character, int[]> map = new HashMap<>();
+        
+        map.put('E', new int[]{0, 1});
+        map.put('W', new int[]{0, -1});
+        map.put('S', new int[]{1, 0});
+        map.put('N', new int[]{-1, 0});
         
         for (String route: routes) {
             char direction = route.charAt(0);
-            int num = route.charAt(2) - '0';
+            int moveCount = route.charAt(2) - '0';
             
-            if (direction == 'E') {
-                if (start[1] + num > W - 1) {
-                    continue;
+            int[] dxdy = map.get(direction);
+            
+            int dx = dxdy[0];
+            int dy = dxdy[1];
+            
+            int curX = start[0];
+            int curY = start[1];
+            
+            boolean isOk = true;
+            
+            for (int i = 0; i < moveCount; i++) {
+                curX += dx;
+                curY += dy;
+                
+                if (curX < 0 || curY < 0 || curX > park.length - 1 || curY > park[0].length() - 1) {
+                    isOk = false;
+                    break;
                 }
                 
-                start[1] += num;
-                
-                for (int j = start[1] - num + 1; j <= start[1]; j++) {
-                    if (park[start[0]].charAt(j) == 'X') {
-                        start[1] -= num;
-                        break;
-                    };
-                }     
-            } else if (direction == 'W') {
-                if (start[1] - num < 0) {
-                    continue;
+                if (park[curX].charAt(curY) == 'X') {
+                    isOk = false;
+                    break;
                 }
-                
-                start[1] -= num;
-                
-                for (int j = start[1]; j <= start[1] + num; j++) {
-                    if (park[start[0]].charAt(j) == 'X') {
-                        start[1] += num;
-                        break;
-                    };
-                }
-            } else if (direction == 'S') {
-                if (start[0] + num > H - 1) {
-                    continue;
-                }
-                
-                start[0] += num;
-                
-                for (int j = start[0] - num; j <= start[0]; j++) {
-                    if (park[j].charAt(start[1]) == 'X') {
-                        start[0] -= num;
-                        break;
-                    };
-                }
-            } else {
-                if (start[0] - num < 0) {
-                    continue;
-                }
-                
-                start[0] -= num;
-                
-                for (int j = start[0]; j <= start[0] + num; j++) {
-                    if (park[j].charAt(start[1]) == 'X') {
-                        start[0] += num;
-                        break;
-                    };
-                }
+            }
+            
+            if (isOk) {
+                start[0] = curX;
+                start[1] = curY;
             }
         }
 
