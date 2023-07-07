@@ -5,39 +5,32 @@ class Solution {
         int answer = 0;
         
         boolean[] visited = new boolean[n];
-        Stack<Integer> stack = new Stack<>();
         
         for (int i = 0; i < computers.length; i++) {
             if (visited[i]) {
                 continue;
             }
             
-            stack.push(i);
+            dfs(i, computers, visited);
             answer++;
-            
-            while(!stack.isEmpty()) {
-                int cur = stack.pop();
-                
-                if (visited[cur]) {
-                    continue;
-                }
-                
-                visited[cur] = true;
-                
-                int[] computer = computers[cur];
-                
-                for (int j = 0; j < computer.length; j++) {
-                    if (visited[j] || computer[j] == 0){
-                        continue;
-                    }
-                    
-                    stack.push(j);
-                }
-            }
         }
-        
         
         return answer;
     }
     
+    private void dfs(int computer, int[][] computers, boolean[] visited) {
+        if (visited[computer]) {
+            return;
+        }
+        
+        visited[computer] = true;
+        
+        for (int i = 0; i < computers.length; i++) {
+            if (visited[i] || computers[computer][i] == 0) {
+                continue;
+            }
+            
+            dfs(i, computers, visited);
+        }
+    }
 }
