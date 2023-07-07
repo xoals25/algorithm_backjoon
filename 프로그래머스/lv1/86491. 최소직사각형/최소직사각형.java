@@ -7,15 +7,9 @@ class Solution {
             int curMax = Math.max(size[0], size[1]);
             int curMin = Math.min(size[0], size[1]);
             
-            if (curMax > prevMax) {
-                prevMax = curMax;
-            }
-            
-            if (curMin > prevMin) {
-                prevMin = curMin;
-            }
+            prevMax = Math.max(curMax, prevMax);
+            prevMin = Math.max(curMin, prevMin);
         }
-        
         
         return prevMax * prevMin;
     }
