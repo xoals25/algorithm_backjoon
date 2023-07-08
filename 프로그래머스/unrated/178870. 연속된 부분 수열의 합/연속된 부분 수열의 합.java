@@ -12,11 +12,6 @@ class Solution {
                 change(right, left, answer);
                 sum -= sequence[left++];
                 
-                if (right < sequence.length) {
-                    sum += sequence[right++];
-                } else {
-                    break;
-                }
             } else if (sum > k) {
                 sum -= sequence[left++];
             } else {
