@@ -14,12 +14,10 @@ class Solution {
                 
             } else if (sum > k) {
                 sum -= sequence[left++];
+            } else if (right < sequence.length) {
+                sum += sequence[right++];
             } else {
-                if (right < sequence.length) {
-                    sum += sequence[right++];
-                } else {
-                    break;
-                }
+                sum -= sequence[left++];
             }
         }
         
