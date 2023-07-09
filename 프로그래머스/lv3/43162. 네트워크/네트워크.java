@@ -1,36 +1,43 @@
-import java.util.Stack;
+import java.util.Queue;
+import java.util.LinkedList;
 
 class Solution {
     public int solution(int n, int[][] computers) {
         int answer = 0;
-        
+
         boolean[] visited = new boolean[n];
-        
+        Queue<Integer> queue = new LinkedList<>();
+
         for (int i = 0; i < computers.length; i++) {
             if (visited[i]) {
                 continue;
             }
-            
-            dfs(i, computers, visited);
+
+            queue.offer(i);
             answer++;
-        }
-        
-        return answer;
-    }
-    
-    private void dfs(int computer, int[][] computers, boolean[] visited) {
-        if (visited[computer]) {
-            return;
-        }
-        
-        visited[computer] = true;
-        
-        for (int i = 0; i < computers.length; i++) {
-            if (visited[i] || computers[computer][i] == 0) {
-                continue;
+
+            while(!queue.isEmpty()) {
+                int cur = queue.poll();
+
+                if (visited[cur]) {
+                    continue;
+                }
+
+                visited[cur] = true;
+
+                int[] computer = computers[cur];
+
+                for (int j = 0; j < computer.length; j++) {
+                    if (visited[j] || computer[j] == 0){
+                        continue;
+                    }
+
+                    queue.offer(j);
+                }
             }
-            
-            dfs(i, computers, visited);
         }
+
+
+        return answer;
     }
 }
