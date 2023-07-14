@@ -1,10 +1,10 @@
 # [unrated] 미로 탈출 - 159993 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/159993?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/159993?language=java#) 
 
 ### 성능 요약
 
-메모리: 79.1 MB, 시간: 6.88 ms
+메모리: 72.6 MB, 시간: 0.38 ms
 
 ### 구분
 
