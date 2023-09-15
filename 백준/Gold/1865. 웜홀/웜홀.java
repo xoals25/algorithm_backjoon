@@ -58,34 +58,20 @@ public class Main {
         Edge[] edges
     ) {
         long[] times = new long[N + 1];
-        
-        for (int start = 1; start <= N; start++) {
-            Arrays.fill(times, INF);
-            times[start] = 0;
-            boolean ck = false;
+        Arrays.fill(times, INF);
+        times[1] = 0;
             
-            for (int i = 1; i < N + 1; i++) {
-                ck = false;
+        for (int i = 1; i < N + 1; i++) {
                 
-                for (int j = 0; j < edges.length; j++) {
-                    Edge cur = edges[j];
-                    
-                    if (times[cur.from] == INF) {
-                        continue;
-                    }
+            for (int j = 0; j < edges.length; j++) {
+                Edge cur = edges[j];
                 
-                    if (times[cur.to] > times[cur.from] + cur.time) {
-                        times[cur.to] = times[cur.from] + cur.time;
-                        ck = true;
+                if (times[cur.to] > times[cur.from] + cur.time) {
+                    times[cur.to] = times[cur.from] + cur.time;
                         
-                        if(i == N) {
-                            return true;
-                        }
+                    if(i == N) {
+                        return true;
                     }
-                }
-                
-                if (!ck) {
-                    break;
                 }
             }
         }
