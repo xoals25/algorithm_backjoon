@@ -2,80 +2,95 @@ import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
-import java.util.Arrays;
+import java.util.*;
 
 public class Main {
-    static BufferedReader br;
-    static int INF = Integer.MAX_VALUE;
+    public static int INF = 1_000_000_000;
     public static void main(String[] args) throws Exception {
-        br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         int T = Integer.parseInt(br.readLine());
         
         for (int i = 0; i < T; i++) {
-            bw.write(result() + "\n");
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            int N = Integer.parseInt(st.nextToken());
+            int M = Integer.parseInt(st.nextToken());
+            int W = Integer.parseInt(st.nextToken());
+            
+            Edge[] edges = new Edge[M * 2 + W];   
+            
+            int idx = 0;
+            
+            for (int j = 0; j < M; j++) {
+                st = new StringTokenizer(br.readLine(), " ");
+                int s = Integer.parseInt(st.nextToken());
+                int e = Integer.parseInt(st.nextToken());
+                int t = Integer.parseInt(st.nextToken());
+                edges[idx++] = new Edge(s, e, t);
+                edges[idx++] = new Edge(e, s, t);
+            }
+            
+            for (int j = 0; j < W; j++) {
+                st = new StringTokenizer(br.readLine(), " ");
+                int s = Integer.parseInt(st.nextToken());
+                int e = Integer.parseInt(st.nextToken());
+                int t = Integer.parseInt(st.nextToken());
+                edges[idx++] = new Edge(s, e, -t);
+            }
+            
+            if (ckComebackMinusTime(N, M, W, edges)) {
+                bw.write("YES\n");
+            } else {
+                bw.write("NO\n");
+            }
         }
-        
+
         bw.flush();
         bw.close();
         br.close();
     }
     
-    public static String result() throws Exception {
-        return ckMinusCycle() ? "YES" : "NO";
-    }
-    
-    public static boolean ckMinusCycle() throws Exception {
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        int N = Integer.parseInt(st.nextToken()); //지점의 수
-        int M = Integer.parseInt(st.nextToken()); // 도로의 개수
-        int W = Integer.parseInt(st.nextToken()); // 웜홀의 개수
-        
-        Edge[] edge = new Edge[2 * M + W];
-        
-        int idx = 0;
-        while (idx < 2 * M) {
-            st = new StringTokenizer(br.readLine(), " ");
-            int S = Integer.parseInt(st.nextToken());
-            int E = Integer.parseInt(st.nextToken());
-            int T = Integer.parseInt(st.nextToken());
-            edge[idx++] = new Edge(S, E, T);
-            edge[idx++] = new Edge(E, S, T);
-        }
-        
-        for(int i = 0; i < W; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
-            int S = Integer.parseInt(st.nextToken());
-            int E = Integer.parseInt(st.nextToken());
-            int T = Integer.parseInt(st.nextToken());
-            edge[idx++] = new Edge(S, E, -T);
-        }
-        
+    public static boolean ckComebackMinusTime(
+        int N,
+        int M,
+        int W,
+        Edge[] edges
+    ) {
         long[] times = new long[N + 1];
-
-        times[1] = 0;
         
-        boolean ck = false;
-        
-        for (int i = 0; i < N + 1; i++) {
-            for (int j = 0; j < edge.length; j++) {
-                Edge cur = edge[j];
+        for (int start = 1; start <= N; start++) {
+            Arrays.fill(times, INF);
+            times[start] = 0;
+            boolean ck = false;
+            
+            for (int i = 1; i < N + 1; i++) {
+                ck = false;
                 
-                long time = cur.time + times[cur.from];
-                if (times[cur.to] > time) {
-                    times[cur.to] = time;
+                for (int j = 0; j < edges.length; j++) {
+                    Edge cur = edges[j];
                     
-                    if (i == N) {
-                        ck = true;
-                        break;
+                    if (times[cur.from] == INF) {
+                        continue;
                     }
+                
+                    if (times[cur.to] > times[cur.from] + cur.time) {
+                        times[cur.to] = times[cur.from] + cur.time;
+                        ck = true;
+                        
+                        if(i == N) {
+                            return true;
+                        }
+                    }
+                }
+                
+                if (!ck) {
+                    break;
                 }
             }
         }
         
-        return ck;
+        return false;
     }
 }
 
@@ -87,6 +102,6 @@ class Edge {
     Edge(int from, int to, long time) {
         this.from = from;
         this.to = to;
-        this.time = time;
+        this.time =time;
     }
 }
