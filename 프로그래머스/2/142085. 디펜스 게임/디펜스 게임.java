@@ -22,6 +22,7 @@ class Solution {
             n -= enemy[i];
         }
         
+        
         return answer;
     }
 }
